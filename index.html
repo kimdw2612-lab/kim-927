@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d1d">
+  <meta name="description" content="승현이에게 보내는, 잠들기 전 작은 밤 인사.">
+  <title>승현아, 딸치지말아라
+
+  </title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --night: #090d1d;
+      --lavender: #c9b8ff;
+      --cream: #fff4d8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100svh;
+      margin: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 42%, rgba(52, 48, 101, .42), transparent 48%),
+        radial-gradient(ellipse at 15% 80%, rgba(45, 59, 104, .28), transparent 42%),
+        linear-gradient(160deg, #12182e 0%, var(--night) 60%, #111329 100%);
+      color: #fff;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    }
+
+    .scene {
+      position: relative;
+      display: grid;
+      min-height: 100svh;
+      place-items: center;
+      isolation: isolate;
+      padding: 48px 24px;
+    }
+
+    .grain {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      opacity: .14;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+    }
+
+    .stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .star {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: #fff8df;
+      box-shadow: 0 0 12px 2px rgba(255, 242, 197, .45);
+      opacity: .2;
+      animation: twinkle var(--duration) ease-in-out var(--delay) infinite alternate;
+    }
+
+    .moon-wrap {
+      position: absolute;
+      top: clamp(42px, 10vh, 100px);
+      right: clamp(32px, 12vw, 180px);
+      width: clamp(76px, 11vw, 122px);
+      aspect-ratio: 1;
+      animation: moon-drift 7s ease-in-out infinite;
+      filter: drop-shadow(0 0 35px rgba(255, 230, 177, .24));
+    }
+
+    .moon {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #fff8dc, #e6d9b4 78%);
+      box-shadow: inset -13px -8px 24px rgba(114, 105, 117, .13);
+    }
+
+    .moon::after {
+      content: "";
+      position: absolute;
+      top: 10%;
+      left: 16%;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #12172d;
+      opacity: .91;
+      transform: translate(15%, -14%);
+    }
+
+    .content {
+      position: relative;
+      width: min(100%, 1000px);
+      padding: 72px 24px 60px;
+      text-align: center;
+      animation: rise-in 1.1s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 25px;
+      color: #c9c4e6;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before, .eyebrow::after {
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(210, 199, 255, .75));
+      content: "";
+    }
+    .eyebrow::after { transform: rotate(180deg); }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(50px, 10vw, 126px);
+      font-weight: 800;
+      letter-spacing: -.075em;
+      line-height: 1.14;
+      text-wrap: balance;
+    }
+
+    .title-line { display: block; }
+    .title-line:first-child {
+      color: var(--cream);
+      text-shadow: 0 0 38px rgba(255, 223, 167, .18);
+    }
+    .title-line:last-child {
+      color: var(--lavender);
+      text-shadow: 0 0 42px rgba(169, 145, 255, .3);
+    }
+
+    .letter {
+      display: inline-block;
+      animation: letter-float 3.8s ease-in-out var(--delay) infinite;
+      transform-origin: 50% 75%;
+    }
+
+    .message {
+      margin: 25px 0 0;
+      color: rgba(235, 232, 247, .7);
+      font-size: clamp(14px, 2vw, 17px);
+      font-weight: 400;
+      letter-spacing: .05em;
+      line-height: 1.8;
+    }
+
+    .sleep-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      margin-top: 37px;
+      padding: 0 24px;
+      border: 1px solid rgba(221, 212, 255, .25);
+      border-radius: 999px;
+      background: rgba(209, 195, 255, .09);
+      color: #f5f0ff;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .03em;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: background .25s, border-color .25s, transform .25s;
+    }
+
+    .sleep-button:hover {
+      transform: translateY(-3px);
+      border-color: rgba(221, 212, 255, .52);
+      background: rgba(209, 195, 255, .16);
+    }
+    .sleep-button:focus-visible { outline: 2px solid #fff4d8; outline-offset: 4px; }
+
+    .sleep-icon { font-size: 17px; transition: transform .4s; }
+    .sleep-button:hover .sleep-icon { transform: rotate(-15deg) scale(1.15); }
+
+    .footnote {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      left: 20px;
+      color: rgba(223, 220, 239, .38);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-align: center;
+    }
+
+    .scene.sleep-mode {
+      background: rgba(2, 4, 13, .58);
+      transition: background 1s ease;
+    }
+    .scene.sleep-mode .content { filter: brightness(.58); transition: filter 1s ease; }
+    .scene.sleep-mode .stars .star { animation-duration: 7s; }
+
+    @keyframes twinkle {
+      from { opacity: .16; transform: scale(.7); }
+      to { opacity: .9; transform: scale(1.35); }
+    }
+    @keyframes moon-drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-13px); } }
+    @keyframes letter-float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-8px) rotate(-1deg); } }
+    @keyframes rise-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 520px) {
+      .scene { padding-inline: 14px; }
+      .content { padding-inline: 8px; }
+      .moon-wrap { top: 35px; right: 26px; width: 70px; }
+      .eyebrow { margin-bottom: 20px; font-size: 10px; }
+      .message { margin-top: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="scene" id="scene">
+    <div class="grain" aria-hidden="true"></div>
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <div class="moon-wrap" aria-hidden="true"><div class="moon"></div></div>
+
+    <section class="content" aria-labelledby="main-title">
+      <p class="eyebrow">승현이 따먹기</p>
+      <h1 id="main-title">
+        <span class="title-line" data-text="승현아"></span>
+        <span class="title-line" data-text="딸 치지 말고 빨리 자"></span>
+      </h1>
+      <p class="message">오우 섹스</p>
+      <button class="sleep-button" id="sleep-button" type="button" aria-pressed="false">
+        <span class="sleep-icon" aria-hidden="true">☾</span>
+        <span>딸딸이 치지마</span>
+      </button>
+    </section>
+
+    <p class="footnote">나랑 섹스 하자 · MADE WITH only sex ♥</p>
+  </main>
+
+  <script>
+    const stars = document.querySelector("#stars");
+    const starCount = window.matchMedia("(max-width: 600px)").matches ? 42 : 75;
+
+    for (let index = 0; index < starCount; index += 1) {
+      const star = document.createElement("span");
+      star.className = "star";
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.setProperty("--size", `${Math.random() * 2.2 + 1}px`);
+      star.style.setProperty("--duration", `${Math.random() * 3 + 2}s`);
+      star.style.setProperty("--delay", `${Math.random() * -5}s`);
+      stars.append(star);
+    }
+
+    document.querySelectorAll(".title-line").forEach((line) => {
+      [...line.dataset.text].forEach((character, index) => {
+        const letter = document.createElement("span");
+        letter.className = "letter";
+        letter.textContent = character === " " ? "\u00a0" : character;
+        letter.style.setProperty("--delay", `${index * 0.13}s`);
+        line.append(letter);
+      });
+    });
+
+    const scene = document.querySelector("#scene");
+    const sleepButton = document.querySelector("#sleep-button");
+    sleepButton.addEventListener("click", () => {
+      const isSleeping = scene.classList.toggle("sleep-mode");
+      sleepButton.setAttribute("aria-pressed", String(isSleeping));
+      sleepButton.querySelector(".sleep-icon").textContent = isSleeping ? "☀" : "☾";
+      sleepButton.querySelector("span:last-child").textContent = isSleeping
+        ? "나가 죽어라"
+        : "딸딸이 치지마";
+    });
+  </script>
+</body>
+</html>
